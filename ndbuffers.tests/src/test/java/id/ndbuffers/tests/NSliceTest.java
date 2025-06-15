@@ -29,7 +29,7 @@ public class NSliceTest {
     public void test_of() {
         Assertions.assertEquals(
                 """
-[Slice[start=0, stop=2147483647, step=1], Slice[start=1, stop=7, step=2], Slice[start=5, stop=2147483647, step=1]]""",
+NSlice=[Slice[start=0, stop=2147483647, step=1], Slice[start=1, stop=7, step=2], Slice[start=5, stop=2147483647, step=1]]""",
                 NSlice.of(":", "1:7:2", "5:").toString());
     }
 }

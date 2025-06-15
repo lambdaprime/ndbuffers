@@ -23,6 +23,7 @@ package id.ndbuffers;
 public class NdTo1dMapper {
     private Shape shape;
     private NSlice nslice;
+    private final int[] prefixSizes;
 
     public NdTo1dMapper(Shape sourceShape, NSlice nslice) {
         if (sourceShape.dims().length != nslice.slices().length)
@@ -30,6 +31,7 @@ public class NdTo1dMapper {
                     "mismatch between number of slices and shape dimensions");
         this.shape = sourceShape;
         this.nslice = nslice;
+        this.prefixSizes = calcPrefixSizes(sourceShape.dims());
     }
 
     public int map(int... indices) {
@@ -38,10 +40,19 @@ public class NdTo1dMapper {
         for (int i = 0; i < indices.length; i++) {
             var stride = 1;
             if (i + 1 < indices.length) {
-                stride = shape.size(i + 1);
+                stride = prefixSizes[i + 1];
             }
             index += nslice.slices()[i].index(indices[i]) * stride;
         }
         return index;
+    }
+
+    private static int[] calcPrefixSizes(int[] dims) {
+        var prefixSizes = new int[dims.length];
+        prefixSizes[prefixSizes.length - 1] = dims[dims.length - 1];
+        for (int i = prefixSizes.length - 2; i >= 0; i--) {
+            prefixSizes[i] = dims[i] * prefixSizes[i + 1];
+        }
+        return prefixSizes;
     }
 }

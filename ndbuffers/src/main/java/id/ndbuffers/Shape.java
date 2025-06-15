@@ -24,18 +24,11 @@ import java.util.stream.Stream;
  * @param dims dimension sizes
  * @author lambdaprime intid@protonmail.com
  */
-public class Shape {
+public record Shape(int... dims) {
 
-    private final int[] dims;
-    private final int[] prefixSizes;
-    private String toString;
-
-    public Shape(int... dims) {
+    public Shape {
         if (Arrays.stream(dims).filter(i -> i == 0).findAny().isPresent())
             throw new IllegalArgumentException("0 size dimension");
-        this.dims = dims;
-        prefixSizes = calcPrefixSizes(dims);
-        toString = "shape=" + Arrays.toString(dims);
     }
 
     /** Calculate shape described by N-dimensional slice */
@@ -47,13 +40,9 @@ public class Shape {
         return dims;
     }
 
-    /**
-     * Total number of items in all dimensions of the shape starting from startDim.
-     *
-     * <p>If startDim = 0 it shows total number of items in all dimensions of the shape
-     */
-    public int size(int startDim) {
-        return prefixSizes[startDim];
+    /** Total number of items in all dimensions of the shape */
+    public int size() {
+        return Arrays.stream(dims).reduce((a, b) -> a * b).getAsInt();
     }
 
     /**
@@ -81,15 +70,6 @@ public class Shape {
 
     @Override
     public String toString() {
-        return toString;
-    }
-
-    private static int[] calcPrefixSizes(int[] dims) {
-        var prefixSizes = new int[dims.length];
-        prefixSizes[prefixSizes.length - 1] = dims[dims.length - 1];
-        for (int i = prefixSizes.length - 2; i >= 0; i--) {
-            prefixSizes[i] = dims[i] * prefixSizes[i + 1];
-        }
-        return prefixSizes;
+        return "Shape=" + Arrays.toString(dims);
     }
 }

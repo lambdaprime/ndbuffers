@@ -29,7 +29,7 @@ public class DoubleNdBufferDirect extends NdBuffer implements DoubleNdBuffer {
     public DoubleNdBufferDirect(Shape sourceShape, NSlice nslice, DoubleBuffer data) {
         super(sourceShape, nslice);
         this.data = data.duplicate();
-        this.data.limit(shape.size(0));
+        this.data.limit(shape.size());
         this.mapper = new NdTo1dMapper(sourceShape, nslice);
     }
 

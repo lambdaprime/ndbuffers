@@ -51,6 +51,6 @@ public record NSlice(Slice... slices) {
 
     @Override
     public final String toString() {
-        return Arrays.toString(slices);
+        return "NSlice=" + Arrays.toString(slices);
     }
 }
