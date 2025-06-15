@@ -17,8 +17,6 @@
  */
 package id.ndbuffers;
 
-import java.util.Arrays;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 /**
@@ -43,20 +41,21 @@ public record Slice(int start, int stop, int step) {
      */
     public static Slice of(String expr) {
         if (expr.indexOf(':') < 0) throw new IllegalArgumentException("Slice expression is empty");
-        var tokens =
-                Arrays.stream(expr.split(":"))
-                        .map(String::trim)
-                        .filter(Predicate.not(String::isEmpty))
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
         var start = 0;
         var stop = MAX_INDEX;
         var step = 1;
-        if (tokens.length == 0) return new Slice(start, stop, step);
-        else if (tokens.length == 1) return new Slice(tokens[0], stop, step);
-        else if (tokens.length == 2) return new Slice(tokens[0], tokens[1], step);
-        else if (tokens.length == 3) return new Slice(tokens[0], tokens[1], tokens[2]);
-        else throw new IllegalArgumentException("Not valid slice expression: " + expr);
+        var tokens = expr.split(":");
+        if (tokens.length != 0) {
+            if (tokens.length >= 1)
+                start = tokens[0].isBlank() ? start : Integer.parseInt(tokens[0]);
+            if (tokens.length >= 2)
+                stop = tokens[1].isBlank() ? start : Integer.parseInt(tokens[1]);
+            if (tokens.length == 3)
+                step = tokens[2].isBlank() ? start : Integer.parseInt(tokens[2]);
+            if (tokens.length > 3)
+                new IllegalArgumentException("Not valid slice expression: " + expr);
+        }
+        return new Slice(start, stop, step);
     }
 
     /** Iterate over all indices of the slice */

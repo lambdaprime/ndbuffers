@@ -97,5 +97,6 @@ public class SliceTest {
         Assertions.assertEquals(
                 "Slice[start=5, stop=2147483647, step=1]", Slice.of("5:").toString());
         Assertions.assertEquals("Slice[start=1, stop=2, step=1]", Slice.of("1:2").toString());
+        Assertions.assertEquals("Slice[start=0, stop=2, step=1]", Slice.of(":2").toString());
     }
 }
