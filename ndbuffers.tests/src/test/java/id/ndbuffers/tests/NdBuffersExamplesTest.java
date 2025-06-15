@@ -53,7 +53,7 @@ public class NdBuffersExamplesTest {
                  9, 10, 11, 12,
                  13, 14, 15, 16
                 ] }""",
-                mx4d.dump());
+                mx4d.dumpAsJson());
         var mx3d = new Matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
         Assertions.assertEquals(
                 """
@@ -62,7 +62,7 @@ public class NdBuffersExamplesTest {
                  10, 11, 12,
                  14, 15, 16
                 ] }""",
-                mx3d.dump());
+                mx3d.dumpAsJson());
         var mx2d = new MatrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
         Assertions.assertEquals(
                 """
@@ -70,7 +70,7 @@ public class NdBuffersExamplesTest {
                  6, -1,
                  14, 16
                 ] }""",
-                mx2d.dump());
+                mx2d.dumpAsJson());
         mx2d.set(-16, 1, 1);
         Assertions.assertEquals(
                 """
@@ -80,13 +80,13 @@ public class NdBuffersExamplesTest {
                  9, 10, 11, 12,
                  13, 14, 15, -16
                 ] }""",
-                mx4d.dump());
+                mx4d.dumpAsJson());
         var vector3d = new Vector3d(NSlice.of("1:", ":"), mx3d);
         Assertions.assertEquals(
                 """
                 { "data" : [
                  10, 11, 12
                 ] }""",
-                vector3d.dump());
+                vector3d.dumpAsJson());
     }
 }

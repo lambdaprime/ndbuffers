@@ -85,7 +85,7 @@ public class MatrixNd extends NdBuffer implements DoubleNdBuffer {
         return data.duplicate();
     }
 
-    public String dump() {
+    public String dumpAsJson() {
         var rows = getRows();
         var cols = getCols();
         var buf = new StringBuilder();
