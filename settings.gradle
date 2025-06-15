@@ -1,0 +1,2 @@
+include 'ndbuffers'
+include 'ndbuffers.tests'
