@@ -82,6 +82,11 @@ public record Slice(int start, int stop, int step) {
         return size;
     }
 
+    /** Distance between {@link #start} and {@link #stop} */
+    public int length() {
+        return stop - start;
+    }
+
     public Object trimStop(int maxStop) {
         return stop <= maxStop ? this : new Slice(start, maxStop, step);
     }

@@ -17,34 +17,44 @@
  */
 package id.ndbuffers;
 
+import java.util.Arrays;
+
 /**
+ * Maps N-dimensional shape to continuous set of numbers starting from 0.
+ *
+ * <p>This mapper is meant to be used with direct ndbuffers only and so it does not work with {@link
+ * NSlice}
+ *
  * @author lambdaprime intid@protonmail.com
  */
 public class NdTo1dMapper {
-    private Shape shape;
-    private NSlice nslice;
+    private final Shape shape;
     private final int[] prefixSizes;
 
-    public NdTo1dMapper(Shape sourceShape, NSlice nslice) {
-        if (sourceShape.dims().length != nslice.slices().length)
-            throw new IllegalArgumentException(
-                    "mismatch between number of slices and shape dimensions");
+    public NdTo1dMapper(Shape sourceShape) {
         this.shape = sourceShape;
-        this.nslice = nslice;
-        this.prefixSizes = calcPrefixSizes(sourceShape.dims());
+        this.prefixSizes = calcPrefixSizes(shape.dims());
     }
 
     public int map(int... indices) {
-        if (shape.dims().length != indices.length) throw new IllegalArgumentException();
-        var index = 0;
+        if (shape.dims().length != indices.length)
+            throw new IllegalArgumentException(
+                    "Indexing %s does not match the shape %s"
+                            .formatted(Arrays.toString(indices), shape));
+        var index1d = 0;
         for (int i = 0; i < indices.length; i++) {
+            if (indices[i] >= shape.dims()[i])
+                throw new ArrayIndexOutOfBoundsException(
+                        "Indexing %s does not match the shape %s"
+                                .formatted(Arrays.toString(indices), shape));
             var stride = 1;
             if (i + 1 < indices.length) {
                 stride = prefixSizes[i + 1];
             }
-            index += nslice.slices()[i].index(indices[i]) * stride;
+            index1d += indices[i] * stride;
         }
-        return index;
+        if (index1d >= shape.size()) throw new ArrayIndexOutOfBoundsException(index1d);
+        return index1d;
     }
 
     private static int[] calcPrefixSizes(int[] dims) {

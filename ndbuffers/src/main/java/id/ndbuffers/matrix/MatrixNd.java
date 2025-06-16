@@ -32,7 +32,7 @@ import java.nio.DoubleBuffer;
  */
 public class MatrixNd extends NdBuffer implements DoubleNdBuffer {
 
-    protected DoubleNdBuffer data;
+    protected final DoubleNdBuffer data;
 
     public MatrixNd(int rows, int cols, double[] data) {
         this(rows, cols, DoubleBuffer.wrap(data));
@@ -51,15 +51,19 @@ public class MatrixNd extends NdBuffer implements DoubleNdBuffer {
     }
 
     public MatrixNd(NSlice nslice, DoubleBuffer data) {
-        this(nslice, new DoubleNdBufferDirect(Shape.of(nslice), nslice, data));
+        this(nslice, new DoubleNdBufferDirect(Shape.ofLength(nslice), data));
     }
 
     public MatrixNd(NSlice nslice, DoubleNdBuffer data) {
-        super(Shape.of(nslice), nslice);
+        super(nslice);
         if (shape.dims().length != 2)
             throw new IllegalArgumentException(
                     "Matrix requires 2 slices instead of " + shape.dims().length);
         this.data = data;
+    }
+
+    public MatrixNd(Slice rows, Slice cols, double[] data) {
+        this(rows, cols, DoubleBuffer.wrap(data));
     }
 
     public int getRows() {

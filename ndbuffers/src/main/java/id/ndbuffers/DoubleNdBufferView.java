@@ -26,7 +26,7 @@ public class DoubleNdBufferView extends NdBuffer implements DoubleNdBuffer {
     private DoubleNdBuffer data;
 
     public DoubleNdBufferView(NSlice nslice, DoubleNdBuffer data) {
-        super(Shape.of(nslice), nslice);
+        super(nslice);
         this.data = data;
     }
 

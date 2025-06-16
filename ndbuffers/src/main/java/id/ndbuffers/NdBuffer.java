@@ -30,12 +30,12 @@ public abstract class NdBuffer {
         formatter.setGroupingUsed(false);
     }
 
-    protected NSlice nslice;
-    protected Shape shape;
+    protected final NSlice nslice;
+    protected final Shape shape;
 
-    protected NdBuffer(Shape sourceShape, NSlice nslice) {
+    protected NdBuffer(NSlice nslice) {
         this.nslice = nslice;
-        this.shape = Shape.of(nslice);
+        this.shape = Shape.ofSize(nslice);
     }
 
     public Shape shape() {

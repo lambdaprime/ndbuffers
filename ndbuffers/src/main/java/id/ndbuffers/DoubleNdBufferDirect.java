@@ -23,14 +23,14 @@ import java.nio.DoubleBuffer;
  * @author lambdaprime intid@protonmail.com
  */
 public class DoubleNdBufferDirect extends NdBuffer implements DoubleNdBuffer {
-    private DoubleBuffer data;
-    private NdTo1dMapper mapper;
+    private final DoubleBuffer data;
+    private final NdTo1dMapper mapper;
 
-    public DoubleNdBufferDirect(Shape sourceShape, NSlice nslice, DoubleBuffer data) {
-        super(sourceShape, nslice);
+    public DoubleNdBufferDirect(Shape sourceShape, DoubleBuffer data) {
+        super(NSlice.over(sourceShape));
         this.data = data.duplicate();
         this.data.limit(shape.size());
-        this.mapper = new NdTo1dMapper(sourceShape, nslice);
+        this.mapper = new NdTo1dMapper(sourceShape);
     }
 
     @Override

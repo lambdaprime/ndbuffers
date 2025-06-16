@@ -32,8 +32,19 @@ public record Shape(int... dims) {
     }
 
     /** Calculate shape described by N-dimensional slice */
-    public static Shape of(NSlice slice) {
+    public static Shape ofSize(NSlice slice) {
         return new Shape(Arrays.stream(slice.slices()).mapToInt(Slice::size).toArray());
+    }
+
+    /**
+     * Calculate actual shape described by the N-dimensional slice
+     *
+     * <p>For example Slice(4, 8, 2) has size of 2 but its length is 4.
+     *
+     * @see Slice#length()
+     */
+    public static Shape ofLength(NSlice slice) {
+        return new Shape(Arrays.stream(slice.slices()).mapToInt(Slice::length).toArray());
     }
 
     public int[] dims() {

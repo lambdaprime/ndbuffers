@@ -33,6 +33,17 @@ public record NSlice(Slice... slices) {
         return new NSlice(Arrays.stream(exprs).map(Slice::of).toArray(i -> new Slice[i]));
     }
 
+    /**
+     * Create {@link NSlice} where each {@link Slice} has start = 0, step = 1 and stop = shape
+     * dimension
+     */
+    public static NSlice over(Shape shape) {
+        return new NSlice(
+                IntStream.range(0, shape.dims().length)
+                        .mapToObj(i -> new Slice(0, shape.dims()[i], 1))
+                        .toArray(i -> new Slice[i]));
+    }
+
     public int[] map(int[] indices) {
         if (slices.length != indices.length) throw new IllegalArgumentException();
         return IntStream.range(0, indices.length).map(i -> slices[i].index(indices[i])).toArray();

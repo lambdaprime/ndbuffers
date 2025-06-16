@@ -45,12 +45,17 @@ public class ShapeTest {
     }
 
     @Test
-    public void test_of() {
+    public void test_ofSize() {
         assertEquals(
                 "Shape=[2, 1]",
-                Shape.of(new NSlice(new Slice(0, 4, 2), new Slice(0, 3, 3))).toString());
+                Shape.ofSize(new NSlice(new Slice(0, 4, 2), new Slice(0, 3, 3))).toString());
         assertEquals(
                 "Shape=[2, 2]",
-                Shape.of(new NSlice(new Slice(0, 3, 2), new Slice(0, 3, 2))).toString());
+                Shape.ofSize(new NSlice(new Slice(0, 3, 2), new Slice(0, 3, 2))).toString());
+    }
+
+    @Test
+    public void test_ofLength() {
+        assertEquals("Shape=[4]", Shape.ofLength(new NSlice(new Slice(4, 8, 2))).toString());
     }
 }
