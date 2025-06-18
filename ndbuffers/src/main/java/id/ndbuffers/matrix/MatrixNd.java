@@ -20,7 +20,7 @@ package id.ndbuffers.matrix;
 import id.ndbuffers.DoubleNdBuffer;
 import id.ndbuffers.DoubleNdBufferDirect;
 import id.ndbuffers.NSlice;
-import id.ndbuffers.NdBuffer;
+import id.ndbuffers.NdBufferView;
 import id.ndbuffers.Shape;
 import id.ndbuffers.Slice;
 import java.nio.DoubleBuffer;
@@ -30,7 +30,7 @@ import java.nio.DoubleBuffer;
  *
  * @author lambdaprime intid@protonmail.com
  */
-public class MatrixNd extends NdBuffer implements DoubleNdBuffer {
+public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
 
     protected final DoubleNdBuffer data;
 

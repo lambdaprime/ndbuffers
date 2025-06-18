@@ -17,32 +17,20 @@
  */
 package id.ndbuffers;
 
-import java.text.DecimalFormat;
-
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public abstract class NdBuffer implements DoubleNdBuffer {
-    public static final DecimalFormat formatter = new DecimalFormat();
+public abstract class NdBufferView extends NdBuffer {
 
-    static {
-        formatter.setMaximumFractionDigits(5);
-        formatter.setGroupingUsed(false);
-    }
+    protected final NSlice nslice;
 
-    protected final Shape shape;
-
-    protected NdBuffer(Shape shape) {
-        this.shape = shape;
-    }
-
-    @Override
-    public Shape shape() {
-        return shape;
+    protected NdBufferView(NSlice nslice) {
+        super(Shape.ofSize(nslice));
+        this.nslice = nslice;
     }
 
     @Override
     public String toString() {
-        return "NdBuffer[shape=%s]".formatted(shape);
+        return "NdBufferView[shape=%s, nslice=%s]".formatted(shape, nslice);
     }
 }

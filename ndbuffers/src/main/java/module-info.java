@@ -1,13 +1,15 @@
 /**
  * N-dimensional buffers.
  *
+ * <h2>Goals</h2>
+ *
  * <p>Multidimensional data structures in Java are organized non-sequentially across fragmented
  * regions of memory, which differs from the continuous block storage method used in languages like
  * C and C++. See <a href="https://en.wikipedia.org/wiki/Row-_and_column-major_order">Row- and
  * column-major order</a> for more details (<b>ndbuffers</b> are using row-major storage order).
  *
- * <p><b>ndbuffers</b> enable processing sequential data stored within one-dimensional Java arrays
- * or {@link java.nio.ByteBuffer} as if they were multidimensional arrays. Example:
+ * <p><b>ndbuffers</b> enable processing sequential data stored inside one-dimensional Java arrays
+ * or {@link java.nio.ByteBuffer} as if they were multidimensional arrays/buffers. Example:
  *
  * {@snippet lang="java" :
  * var oneDimensionalArray = new double[] {
@@ -57,6 +59,18 @@
  *       1, 1, 1, 1]""", opencvMat.dump());
  * }
  *
+ * <h2>Usage</h2>
+ *
+ * <p>There are two types of ndbuffers:
+ *
+ * <ul>
+ *   <li>view ndbuffers - created by applying {@link NSlice} over other existing ndbuffers. Views
+ *       does not contain data instead they point to other view or direct ndbuffer.
+ *   <li>direct ndbuffers - created by applying N-dimensional {@link Shape} over real data which is
+ *       stored inside the {@link ByteBuffer}. Direct ndbuffers can only point to {@link ByteBuffer}
+ *       and they cannot point to views or other direct ndbuffers.
+ * </ul>
+ *
  * <h2>byte[] vs ByteBuffer vs MemorySegment</h2>
  *
  * <p>Here is a comparison of {@link java.nio.ByteBuffer} which is used by <b>ndbuffers</b> with
@@ -88,7 +102,9 @@
  * @see <a
  *     href="https://github.com/lambdaprime/ndbuffers/blob/main/ndbuffers/release/CHANGELOG.md">Releases</a>
  * @see <a href="https://github.com/lambdaprime/ndbuffers">Github</a>
- * @author lambdaprime intid@protonmail.com
+ * @author lambdaprime intid@protonmail
+ *     <p>;
+ *     <p>m
  */
 module ndbuffers {
     exports id.ndbuffers;

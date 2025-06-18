@@ -22,8 +22,8 @@ import java.nio.DoubleBuffer;
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public class DoubleNdBufferView extends NdBuffer implements DoubleNdBuffer {
-    private DoubleNdBuffer data;
+public class DoubleNdBufferView extends NdBufferView implements DoubleNdBuffer {
+    private final DoubleNdBuffer data;
 
     public DoubleNdBufferView(NSlice nslice, DoubleNdBuffer data) {
         super(nslice);
