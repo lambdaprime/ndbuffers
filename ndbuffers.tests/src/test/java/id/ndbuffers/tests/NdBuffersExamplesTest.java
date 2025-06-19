@@ -18,8 +18,11 @@
 package id.ndbuffers.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import id.ndbuffers.DoubleNdBufferDirect;
 import id.ndbuffers.NSlice;
+import id.ndbuffers.Shape;
 import id.ndbuffers.Slice;
 import id.ndbuffers.matrix.Matrix3d;
 import id.ndbuffers.matrix.Matrix4d;
@@ -102,5 +105,15 @@ public class NdBuffersExamplesTest {
                         });
         assertEquals(0, mxNd.get(0, 0));
         assertEquals(6, mxNd.get(1, 0));
+    }
+
+    @Test
+    public void test_index_over_missing_dims() {
+        var vector3d = new DoubleNdBufferDirect(new Shape(5), new double[] {1, 2, 3, 4, 5});
+        var mx1 = new MatrixNd(NSlice.of("0:1:1", "0:3:1"), vector3d);
+        assertEquals(1, mx1.get(0, 0));
+
+        var mx2 = new MatrixNd(NSlice.of("1:2:1", "0:3:1"), vector3d);
+        assertThrows(IllegalArgumentException.class, () -> mx2.get(0, 0));
     }
 }

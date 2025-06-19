@@ -37,11 +37,8 @@ public class NdTo1dMapper {
     }
 
     public int map(int... indices) {
-        if (shape.dims().length != indices.length)
-            throw new IllegalArgumentException(
-                    "Indexing %s does not match the shape %s"
-                            .formatted(Arrays.toString(indices), shape));
         var index1d = 0;
+        indices = filter(indices);
         for (int i = 0; i < indices.length; i++) {
             if (indices[i] >= shape.dims()[i])
                 throw new ArrayIndexOutOfBoundsException(
@@ -55,6 +52,25 @@ public class NdTo1dMapper {
         }
         if (index1d >= shape.size()) throw new ArrayIndexOutOfBoundsException(index1d);
         return index1d;
+    }
+
+    /**
+     * Allow to map views with N dimensions to direct ndbuffers with K dimensions when K < N
+     *
+     * <p>If sourceShape has less dimensions comparing to the number of dimensions specified in the
+     * queried indices then we ignore all higher order dimensions and keep only those which are part
+     * of the sourceShape. This is allowed only when higher order indices are equal to 0, otherwise
+     * we treat it as an error and throw an exception. For example given direct buffer of 1D vector
+     * "1, 2, 3, 4, 5" we allow to map a 2D matrix (view) into it with a {@link NSlice} which first
+     * dimension is "0:1:1", any other slice (ex. "1:2:1") will result in error.
+     */
+    private int[] filter(int[] indices) {
+        if (shape.dims().length == indices.length) return indices;
+        var c = 0;
+        while (shape.dims().length + c < indices.length) {
+            if (indices[c++] != 0) throw new IllegalArgumentException();
+        }
+        return Arrays.copyOfRange(indices, c, indices.length);
     }
 
     private static int[] calcPrefixSizes(int[] dims) {
