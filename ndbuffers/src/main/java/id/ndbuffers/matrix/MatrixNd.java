@@ -55,10 +55,13 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
     }
 
     public MatrixNd(NSlice nslice, DoubleNdBuffer data) {
-        super(nslice);
-        if (shape.dims().length != 2)
-            throw new IllegalArgumentException(
-                    "Matrix requires 2 slices instead of " + shape.dims().length);
+        super(Shape.ofSize(nslice, nslice.slices().length - 2, nslice.slices().length), nslice);
+        var slices = nslice.slices();
+        for (int i = 0; i < slices.length - 2; i++) {
+            if (slices[i].size() > 1)
+                throw new IllegalArgumentException(
+                        "Matrix requires 2 slices instead of " + shape.dims().length);
+        }
         this.data = data;
     }
 
@@ -89,7 +92,12 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
         return data.duplicate();
     }
 
+    @Override
     public String dumpAsJson() {
+        return "{ \"data\" : [\n" + dumpAsString() + "\n] }";
+    }
+
+    public String dumpAsString() {
         var rows = getRows();
         var cols = getCols();
         var buf = new StringBuilder();
@@ -105,6 +113,6 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
             }
             if (r < rows - 1) buf.append(",\n");
         }
-        return "{ \"data\" : [\n" + buf.toString() + "\n] }";
+        return buf.toString();
     }
 }

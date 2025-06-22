@@ -25,7 +25,11 @@ public abstract class NdBufferView extends NdBuffer {
     protected final NSlice nslice;
 
     protected NdBufferView(NSlice nslice) {
-        super(Shape.ofSize(nslice));
+        this(Shape.ofSize(nslice), nslice);
+    }
+
+    protected NdBufferView(Shape shape, NSlice nslice) {
+        super(shape);
         this.nslice = nslice;
     }
 

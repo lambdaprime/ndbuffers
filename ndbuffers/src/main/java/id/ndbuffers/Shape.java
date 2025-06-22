@@ -20,6 +20,7 @@ package id.ndbuffers;
 import java.util.Arrays;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -36,7 +37,14 @@ public record Shape(int... dims) {
 
     /** Calculate shape described by N-dimensional slice */
     public static Shape ofSize(NSlice slice) {
-        return new Shape(Arrays.stream(slice.slices()).mapToInt(Slice::size).toArray());
+        return ofSize(slice, 0, slice.slices().length);
+    }
+
+    /**
+     * Calculate shape described by dimensions between [from, to) inside given N-dimensional slice
+     */
+    public static Shape ofSize(NSlice nslice, int from, int to) {
+        return new Shape(IntStream.range(from, to).map(i -> nslice.slices()[i].size()).toArray());
     }
 
     /**
@@ -74,5 +82,9 @@ public record Shape(int... dims) {
     @Override
     public String toString() {
         return "Shape=" + Arrays.toString(dims);
+    }
+
+    public Shape subshape(int from, int to) {
+        return new Shape(Arrays.copyOfRange(dims, from, to));
     }
 }

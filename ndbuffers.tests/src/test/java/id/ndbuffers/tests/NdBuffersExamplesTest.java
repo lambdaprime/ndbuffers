@@ -28,6 +28,7 @@ import id.ndbuffers.matrix.Matrix3d;
 import id.ndbuffers.matrix.Matrix4d;
 import id.ndbuffers.matrix.MatrixNd;
 import id.ndbuffers.matrix.Vector3d;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -115,5 +116,80 @@ public class NdBuffersExamplesTest {
 
         var mx2 = new MatrixNd(NSlice.of("1:2:1", "0:3:1"), vector3d);
         assertThrows(IllegalArgumentException.class, () -> mx2.get(0, 0));
+    }
+
+    @Test
+    public void test_multiple_dimensions() {
+        var oneDimensionalArray = IntStream.range(0, 2 * 3 * 4 * 3).asDoubleStream().toArray();
+        var buf1d = new DoubleNdBufferDirect(new Shape(4), oneDimensionalArray);
+        assertEquals(
+                """
+                { "data" : [
+                 [0, 1, 2, 3]
+                ] }""",
+                buf1d.dumpAsJson());
+        var buf2d = new DoubleNdBufferDirect(new Shape(5, 3), oneDimensionalArray);
+        assertEquals(
+                """
+                { "data" : [
+                 [0, 1, 2],
+                 [3, 4, 5],
+                 [6, 7, 8],
+                 [9, 10, 11],
+                 [12, 13, 14]
+                ] }""",
+                buf2d.dumpAsJson());
+        var buf3d = new DoubleNdBufferDirect(new Shape(2, 4, 3), oneDimensionalArray);
+        assertEquals(
+                """
+                { "data" : [
+                  [
+                   [0, 1, 2],
+                   [3, 4, 5],
+                   [6, 7, 8],
+                   [9, 10, 11]
+                  ],
+                  [
+                   [12, 13, 14],
+                   [15, 16, 17],
+                   [18, 19, 20],
+                   [21, 22, 23]
+                  ]
+                 ] }""",
+                buf3d.dumpAsJson());
+        var buf4d = new DoubleNdBufferDirect(new Shape(2, 2, 4, 3), oneDimensionalArray);
+        assertEquals(
+                """
+                { "data" : [
+                  [
+                   [
+                    [0, 1, 2],
+                    [3, 4, 5],
+                    [6, 7, 8],
+                    [9, 10, 11]
+                   ],
+                   [
+                    [12, 13, 14],
+                    [15, 16, 17],
+                    [18, 19, 20],
+                    [21, 22, 23]
+                   ]
+                  ],
+                  [
+                   [
+                    [24, 25, 26],
+                    [27, 28, 29],
+                    [30, 31, 32],
+                    [33, 34, 35]
+                   ],
+                   [
+                    [36, 37, 38],
+                    [39, 40, 41],
+                    [42, 43, 44],
+                    [45, 46, 47]
+                   ]
+                  ]
+                 ] }""",
+                buf4d.dumpAsJson());
     }
 }

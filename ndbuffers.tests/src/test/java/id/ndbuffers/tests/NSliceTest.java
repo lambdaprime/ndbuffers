@@ -18,6 +18,7 @@
 package id.ndbuffers.tests;
 
 import id.ndbuffers.NSlice;
+import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,5 +32,15 @@ public class NSliceTest {
                 """
 NSlice=[Slice[start=0, stop=2147483647, step=1], Slice[start=1, stop=7, step=2], Slice[start=5, stop=2147483647, step=1]]""",
                 NSlice.of(":", "1:7:2", "5:").toString());
+    }
+
+    @Test
+    public void test_map() {
+        var nslice = NSlice.of(":", "1:7:2", "5:8");
+        Assertions.assertEquals("[0, 1, 6]", Arrays.toString(nslice.map(1)));
+        Assertions.assertEquals("[0, 1, 7]", Arrays.toString(nslice.map(2)));
+        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> nslice.map(3));
+        Assertions.assertEquals("[0, 3, 6]", Arrays.toString(nslice.map(1, 1)));
+        Assertions.assertEquals("[0, 3, 7]", Arrays.toString(nslice.map(1, 2)));
     }
 }
