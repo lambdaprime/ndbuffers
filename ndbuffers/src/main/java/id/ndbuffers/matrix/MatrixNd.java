@@ -54,6 +54,10 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
         this(nslice, new DoubleNdBufferDirect(Shape.ofLength(nslice), data));
     }
 
+    public MatrixNd(Slice rows, Slice cols, double[] data) {
+        this(rows, cols, DoubleBuffer.wrap(data));
+    }
+
     public MatrixNd(NSlice nslice, DoubleNdBuffer data) {
         super(Shape.ofSize(nslice, nslice.slices().length - 2, nslice.slices().length), nslice);
         var slices = nslice.slices();
@@ -63,10 +67,6 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
                         "Matrix requires 2 slices instead of " + shape.dims().length);
         }
         this.data = data;
-    }
-
-    public MatrixNd(Slice rows, Slice cols, double[] data) {
-        this(rows, cols, DoubleBuffer.wrap(data));
     }
 
     public int getRows() {

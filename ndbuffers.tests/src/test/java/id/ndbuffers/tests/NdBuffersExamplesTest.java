@@ -20,14 +20,10 @@ package id.ndbuffers.tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import id.ndbuffers.DoubleNdBufferDirect;
 import id.ndbuffers.NSlice;
+import id.ndbuffers.NdBuffersFactory;
 import id.ndbuffers.Shape;
 import id.ndbuffers.Slice;
-import id.ndbuffers.matrix.Matrix3d;
-import id.ndbuffers.matrix.Matrix4d;
-import id.ndbuffers.matrix.MatrixNd;
-import id.ndbuffers.matrix.Vector3d;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +31,8 @@ import org.junit.jupiter.api.Test;
  * @author lambdaprime intid@protonmail.com
  */
 public class NdBuffersExamplesTest {
+
+    private NdBuffersFactory factory = new NdBuffersFactory();
 
     @Test
     public void test() {
@@ -45,11 +43,10 @@ public class NdBuffersExamplesTest {
                     9, 10, 11, 12,
                     13, 14, 15, 16
                 };
-        var mx4d = new Matrix4d(oneDimensionalArray);
+        var mx4d = factory.matrix4d(oneDimensionalArray);
         assertEquals(8, mx4d.get(1, 3));
         mx4d.set(-1, 1, 3);
         assertEquals(-1, oneDimensionalArray[7]);
-
         assertEquals(
                 """
                 { "data" : [
@@ -59,7 +56,7 @@ public class NdBuffersExamplesTest {
                  [13, 14, 15, 16]
                 ] }""",
                 mx4d.dumpAsJson());
-        var mx3d = new Matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
+        var mx3d = factory.matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
         assertEquals(
                 """
                 { "data" : [
@@ -68,7 +65,7 @@ public class NdBuffersExamplesTest {
                  [14, 15, 16]
                 ] }""",
                 mx3d.dumpAsJson());
-        var mx2d = new MatrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
+        var mx2d = factory.matrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
         assertEquals(
                 """
                 { "data" : [
@@ -86,7 +83,7 @@ public class NdBuffersExamplesTest {
                  [13, 14, 15, -16]
                 ] }""",
                 mx4d.dumpAsJson());
-        var vector3d = new Vector3d(NSlice.of("1:", ":"), mx3d);
+        var vector3d = factory.vector3d(NSlice.of("1:", ":"), mx3d);
         assertEquals(
                 """
                 { "data" : [
@@ -95,7 +92,7 @@ public class NdBuffersExamplesTest {
                 vector3d.dumpAsJson());
 
         var mxNd =
-                new MatrixNd(
+                factory.matrixNd(
                         new Slice(0, 4, 2),
                         new Slice(0, 3, 1),
                         new double[] {
@@ -110,25 +107,25 @@ public class NdBuffersExamplesTest {
 
     @Test
     public void test_index_over_missing_dims() {
-        var vector3d = new DoubleNdBufferDirect(new Shape(5), new double[] {1, 2, 3, 4, 5});
-        var mx1 = new MatrixNd(NSlice.of("0:1:1", "0:3:1"), vector3d);
+        var vector3d = factory.ndBuffer(new Shape(5), new double[] {1, 2, 3, 4, 5});
+        var mx1 = factory.matrixNd(NSlice.of("0:1:1", "0:3:1"), vector3d);
         assertEquals(1, mx1.get(0, 0));
 
-        var mx2 = new MatrixNd(NSlice.of("1:2:1", "0:3:1"), vector3d);
+        var mx2 = factory.matrixNd(NSlice.of("1:2:1", "0:3:1"), vector3d);
         assertThrows(IllegalArgumentException.class, () -> mx2.get(0, 0));
     }
 
     @Test
     public void test_multiple_dimensions() {
         var oneDimensionalArray = IntStream.range(0, 2 * 3 * 4 * 3).asDoubleStream().toArray();
-        var buf1d = new DoubleNdBufferDirect(new Shape(4), oneDimensionalArray);
+        var buf1d = factory.ndBuffer(new Shape(4), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [
                  [0, 1, 2, 3]
                 ] }""",
                 buf1d.dumpAsJson());
-        var buf2d = new DoubleNdBufferDirect(new Shape(5, 3), oneDimensionalArray);
+        var buf2d = factory.ndBuffer(new Shape(5, 3), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [
@@ -139,7 +136,7 @@ public class NdBuffersExamplesTest {
                  [12, 13, 14]
                 ] }""",
                 buf2d.dumpAsJson());
-        var buf3d = new DoubleNdBufferDirect(new Shape(2, 4, 3), oneDimensionalArray);
+        var buf3d = factory.ndBuffer(new Shape(2, 4, 3), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [
@@ -157,7 +154,7 @@ public class NdBuffersExamplesTest {
                   ]
                  ] }""",
                 buf3d.dumpAsJson());
-        var buf4d = new DoubleNdBufferDirect(new Shape(2, 2, 4, 3), oneDimensionalArray);
+        var buf4d = factory.ndBuffer(new Shape(2, 2, 4, 3), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [

@@ -34,10 +34,6 @@ public class DoubleNdBufferDirect extends NdBuffer {
         this.mapper = new NdTo1dMapper(sourceShape);
     }
 
-    public DoubleNdBufferDirect(Shape sourceShape, double[] data) {
-        this(sourceShape, DoubleBuffer.wrap(data));
-    }
-
     @Override
     public double get(int... indices) {
         return data.get(mapper.map(indices));
