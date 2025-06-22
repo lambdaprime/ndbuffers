@@ -95,12 +95,13 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
         var buf = new StringBuilder();
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                if (c == 0) buf.append(" ");
+                if (c == 0) buf.append(" [");
                 var num = get(r, c);
                 var str = formatter.format(num);
                 if (str.equals("-0")) str = "0";
                 buf.append(str);
                 if (c < cols - 1) buf.append(", ");
+                else buf.append("]");
             }
             if (r < rows - 1) buf.append(",\n");
         }

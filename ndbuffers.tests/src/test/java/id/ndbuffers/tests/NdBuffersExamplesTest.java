@@ -52,44 +52,44 @@ public class NdBuffersExamplesTest {
         assertEquals(
                 """
                 { "data" : [
-                 1, 2, 3, 4,
-                 5, 6, 7, -1,
-                 9, 10, 11, 12,
-                 13, 14, 15, 16
+                 [1, 2, 3, 4],
+                 [5, 6, 7, -1],
+                 [9, 10, 11, 12],
+                 [13, 14, 15, 16]
                 ] }""",
                 mx4d.dumpAsJson());
         var mx3d = new Matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
         assertEquals(
                 """
                 { "data" : [
-                 6, 7, -1,
-                 10, 11, 12,
-                 14, 15, 16
+                 [6, 7, -1],
+                 [10, 11, 12],
+                 [14, 15, 16]
                 ] }""",
                 mx3d.dumpAsJson());
         var mx2d = new MatrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
         assertEquals(
                 """
                 { "data" : [
-                 6, -1,
-                 14, 16
+                 [6, -1],
+                 [14, 16]
                 ] }""",
                 mx2d.dumpAsJson());
         mx2d.set(-16, 1, 1);
         assertEquals(
                 """
                 { "data" : [
-                 1, 2, 3, 4,
-                 5, 6, 7, -1,
-                 9, 10, 11, 12,
-                 13, 14, 15, -16
+                 [1, 2, 3, 4],
+                 [5, 6, 7, -1],
+                 [9, 10, 11, 12],
+                 [13, 14, 15, -16]
                 ] }""",
                 mx4d.dumpAsJson());
         var vector3d = new Vector3d(NSlice.of("1:", ":"), mx3d);
         assertEquals(
                 """
                 { "data" : [
-                 10, 11, 12
+                 [10, 11, 12]
                 ] }""",
                 vector3d.dumpAsJson());
 
