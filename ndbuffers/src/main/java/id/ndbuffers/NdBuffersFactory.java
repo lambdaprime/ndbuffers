@@ -28,17 +28,17 @@ import java.nio.DoubleBuffer;
  */
 public class NdBuffersFactory {
 
-    /** New direct ndbuffer pointing to {@link DoubleBuffer} */
+    /** New base ndbuffer pointing to {@link DoubleBuffer} */
     public DoubleNdBuffer ndBuffer(Shape sourceShape, DoubleBuffer data) {
-        return new DoubleNdBufferDirect(sourceShape, data);
+        return new DoubleNdBufferBase(sourceShape, data);
     }
 
-    /** New direct ndbuffer wrapped around data array */
+    /** New base ndbuffer wrapped around data array */
     public DoubleNdBuffer ndBuffer(Shape sourceShape, double[] data) {
-        return new DoubleNdBufferDirect(sourceShape, DoubleBuffer.wrap(data));
+        return new DoubleNdBufferBase(sourceShape, DoubleBuffer.wrap(data));
     }
 
-    /** New view ndbuffer which will point to a new direct ndbuffer wrapped around data array */
+    /** New view ndbuffer which will point to a new base ndbuffer wrapped around data array */
     public Matrix4d matrix4d(double[] data) {
         return new Matrix4d(data);
     }
@@ -53,7 +53,7 @@ public class NdBuffersFactory {
         return new MatrixNd(rows, cols, data);
     }
 
-    /** New view ndbuffer which will point to a new direct ndbuffer wrapped around data array */
+    /** New view ndbuffer which will point to a new base ndbuffer wrapped around data array */
     public MatrixNd matrixNd(Slice rows, Slice cols, double[] data) {
         return new MatrixNd(rows, cols, data);
     }

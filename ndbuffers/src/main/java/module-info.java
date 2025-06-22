@@ -9,7 +9,7 @@
  * column-major order</a> for more details (<b>ndbuffers</b> are using row-major storage order).
  *
  * <p><b>ndbuffers</b> enable processing sequential data stored inside one-dimensional Java arrays
- * or {@link java.nio.ByteBuffer} as if they were multidimensional arrays/buffers. Example:
+ * or {@link java.nio.Buffer} as if they were multidimensional arrays/buffers. Example:
  *
  * {@snippet lang="java" :
  * var oneDimensionalArray = new double[] {
@@ -65,23 +65,23 @@
  *
  * <ul>
  *   <li>view ndbuffers - created by applying {@link NSlice} over other existing ndbuffers. Views
- *       does not contain data instead they point to other view or direct ndbuffer.
- *   <li>direct ndbuffers - created by applying N-dimensional {@link Shape} over real data which is
- *       stored inside the {@link ByteBuffer}. Direct ndbuffers can only point to {@link ByteBuffer}
- *       and they cannot point to views or other direct ndbuffers.
+ *       does not contain data instead they point to other view or base ndbuffer.
+ *   <li>base ndbuffers - created by applying N-dimensional {@link Shape} over real data which is
+ *       stored inside the {@link Buffer}. Direct ndbuffers can only point to {@link Buffer} and
+ *       they cannot point to views or other base ndbuffers.
  * </ul>
  *
- * <h2>byte[] vs ByteBuffer vs MemorySegment</h2>
+ * <h2>byte[] vs Buffer vs MemorySegment</h2>
  *
- * <p>Here is a comparison of {@link java.nio.ByteBuffer} which is used by <b>ndbuffers</b> with
- * other different Java memory options.
+ * <p>Here is a comparison of {@link java.nio.Buffer} which is used by <b>ndbuffers</b> with other
+ * different Java memory options.
  *
  * <h3>Map data to different primitive types double/int/...</h3>
  *
  * <ul>
  *   <li>byte[] - none
- *   <li>{@link java.nio.ByteBuffer} - {@link java.nio.ByteBuffer#asDoubleBuffer()}, {@link
- *       java.nio.ByteBuffer#asIntBuffer()}, ...
+ *   <li>{@link java.nio.Buffer} - {@link java.nio.Buffer#asDoubleBuffer()}, {@link
+ *       java.nio.Buffer#asIntBuffer()}, ...
  *   <li>{@link java.lang.foreign.MemorySegment} - {@link
  *       java.lang.foreign.MemorySegment#get(java.lang.foreign.ValueLayout.OfDouble, long)}, {@link
  *       java.lang.foreign.MemorySegment#get(java.lang.foreign.ValueLayout.OfInt, long)}, ...
@@ -91,9 +91,9 @@
  *
  * <ul>
  *   <li>byte[] - only from Java heap
- *   <li>ByteBuffer:
+ *   <li>Buffer:
  *       <ul>
- *         <li>from Java heap - {@link java.nio.ByteBuffer#wrap(byte[])}
+ *         <li>from Java heap - {@link java.nio.Buffer#wrap(byte[])}
  *         <li>from native memory - {@link java.lang.foreign.MemorySegment#asByteBuffer()}
  *       </ul>
  *   <li>MemorySegment - only from native memory

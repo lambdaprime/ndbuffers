@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * Maps N-dimensional shape to continuous set of numbers starting from 0.
  *
- * <p>This mapper is meant to be used with direct ndbuffers only and so it does not work with {@link
+ * <p>This mapper is meant to be used with base ndbuffers only and so it does not work with {@link
  * NSlice}
  *
  * @author lambdaprime intid@protonmail.com
@@ -57,12 +57,12 @@ public class NdTo1dMapper {
     }
 
     /**
-     * Allow to map views with N dimensions to direct ndbuffers with K dimensions when K < N
+     * Allow to map views with N dimensions to base ndbuffers with K dimensions when K < N
      *
      * <p>If sourceShape has less dimensions comparing to the number of dimensions specified in the
      * queried indices then we ignore all higher order dimensions and keep only those which are part
      * of the sourceShape. This is allowed only when higher order indices are equal to 0, otherwise
-     * we treat it as an error and throw an exception. For example given direct buffer of 1D vector
+     * we treat it as an error and throw an exception. For example given base buffer of 1D vector
      * "1, 2, 3, 4, 5" we allow to map a 2D matrix (view) into it with a {@link NSlice} which first
      * dimension is "0:1:1", any other slice (ex. "1:2:1") will result in error.
      */

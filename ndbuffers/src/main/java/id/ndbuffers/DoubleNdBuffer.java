@@ -17,7 +17,7 @@
  */
 package id.ndbuffers;
 
-import java.nio.ByteBuffer;
+import java.nio.Buffer;
 import java.nio.DoubleBuffer;
 
 /**
@@ -32,9 +32,9 @@ public interface DoubleNdBuffer {
     void set(double v, int... indices);
 
     /**
-     * Create duplicate of internal {@link ByteBuffer} by calling {@link ByteBuffer#duplicate()}
+     * Create duplicate of internal {@link Buffer} by calling {@link Buffer#duplicate()}
      *
-     * <p>In case of view it applies {@link ByteBuffer#duplicate()} on the source {@link ByteBuffer}
+     * <p>In case of view it applies {@link Buffer#duplicate()} on the source {@link Buffer}
      */
     DoubleBuffer duplicate();
 

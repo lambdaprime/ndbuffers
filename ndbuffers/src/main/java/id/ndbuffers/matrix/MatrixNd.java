@@ -18,7 +18,7 @@
 package id.ndbuffers.matrix;
 
 import id.ndbuffers.DoubleNdBuffer;
-import id.ndbuffers.DoubleNdBufferDirect;
+import id.ndbuffers.DoubleNdBufferBase;
 import id.ndbuffers.NSlice;
 import id.ndbuffers.NdBufferView;
 import id.ndbuffers.Shape;
@@ -51,7 +51,7 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
     }
 
     public MatrixNd(NSlice nslice, DoubleBuffer data) {
-        this(nslice, new DoubleNdBufferDirect(Shape.ofLength(nslice), data));
+        this(nslice, new DoubleNdBufferBase(Shape.ofLength(nslice), data));
     }
 
     public MatrixNd(Slice rows, Slice cols, double[] data) {
