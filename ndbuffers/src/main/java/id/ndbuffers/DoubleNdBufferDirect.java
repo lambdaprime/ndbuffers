@@ -17,6 +17,7 @@
  */
 package id.ndbuffers;
 
+import id.ndbuffers.impl.NdTo1dMapper;
 import java.nio.DoubleBuffer;
 
 /**

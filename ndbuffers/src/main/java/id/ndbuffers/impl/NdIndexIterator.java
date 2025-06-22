@@ -15,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package id.ndbuffers;
+package id.ndbuffers.impl;
 
+import id.ndbuffers.Shape;
 import java.util.Arrays;
 import java.util.Iterator;
 

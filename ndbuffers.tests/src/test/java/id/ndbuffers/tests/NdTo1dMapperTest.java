@@ -20,8 +20,8 @@ package id.ndbuffers.tests;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import id.ndbuffers.NdTo1dMapper;
 import id.ndbuffers.Shape;
+import id.ndbuffers.impl.NdTo1dMapper;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

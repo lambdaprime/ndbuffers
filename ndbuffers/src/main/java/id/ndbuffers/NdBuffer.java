@@ -17,7 +17,8 @@
  */
 package id.ndbuffers;
 
-import id.ndbuffers.NdIndexIterator.DimensionChangeListener;
+import id.ndbuffers.impl.NdIndexIterator;
+import id.ndbuffers.impl.NdIndexIterator.DimensionChangeListener;
 import id.ndbuffers.matrix.MatrixNd;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

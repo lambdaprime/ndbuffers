@@ -109,4 +109,6 @@
 module ndbuffers {
     exports id.ndbuffers;
     exports id.ndbuffers.matrix;
+    exports id.ndbuffers.impl to
+            ndbuffers.tests;
 }

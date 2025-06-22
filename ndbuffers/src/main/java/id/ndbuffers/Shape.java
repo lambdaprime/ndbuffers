@@ -17,6 +17,7 @@
  */
 package id.ndbuffers;
 
+import id.ndbuffers.impl.NdIndexIterator;
 import java.util.Arrays;
 import java.util.Spliterator;
 import java.util.Spliterators;
