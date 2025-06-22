@@ -18,7 +18,10 @@
 package id.ndbuffers;
 
 import java.util.Arrays;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @param dims dimension sizes
@@ -58,25 +61,14 @@ public record Shape(int... dims) {
 
     /**
      * Iterate over all dimensions of the shape by generating valid indices in the increasing order
+     *
+     * @return sequential ordered {@link Stream} which consist of the same instance of the array
+     *     which values are updated to represent indices of the current shape
      */
     public Stream<int[]> iterate() {
-        var max = Arrays.stream(dims).map(i -> i - 1).toArray();
-        var stream =
-                Stream.iterate(
-                        new int[dims.length],
-                        indices -> !Arrays.equals(indices, max),
-                        indices -> {
-                            for (int i = indices.length - 1; i >= 0; i--) {
-                                if (indices[i] < dims[i] - 1) {
-                                    indices[i]++;
-                                    break;
-                                } else {
-                                    indices[i] = 0;
-                                }
-                            }
-                            return indices;
-                        });
-        return Stream.concat(stream, Stream.of(max));
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(new NdIndexIterator(this), Spliterator.ORDERED),
+                false);
     }
 
     @Override

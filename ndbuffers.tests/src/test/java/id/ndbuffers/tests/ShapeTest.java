@@ -34,6 +34,9 @@ public class ShapeTest {
     public void test_iterate() {
         assertEquals("[0]", new Shape(1).iterate().map(Arrays::toString).collect(joining("\n")));
         assertEquals(
+                "[0, 0, 0]",
+                new Shape(1, 1, 1).iterate().map(Arrays::toString).collect(joining("\n")));
+        assertEquals(
                 """
                 [0, 0, 0]
                 [0, 0, 1]
