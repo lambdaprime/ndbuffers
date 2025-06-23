@@ -23,10 +23,10 @@ import java.nio.DoubleBuffer;
  * @author lambdaprime intid@protonmail.com
  */
 public class DoubleNdBufferView extends NdBufferView implements DoubleNdBuffer {
-    private final DoubleNdBuffer data;
+    protected final DoubleNdBuffer data;
 
-    public DoubleNdBufferView(NSlice nslice, DoubleNdBuffer data) {
-        super(nslice);
+    public DoubleNdBufferView(Shape shape, NSlice nslice, DoubleNdBuffer data) {
+        super(shape, nslice);
         this.data = data;
     }
 

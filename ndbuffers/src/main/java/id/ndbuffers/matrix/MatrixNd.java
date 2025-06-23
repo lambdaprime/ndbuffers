@@ -19,8 +19,8 @@ package id.ndbuffers.matrix;
 
 import id.ndbuffers.DoubleNdBuffer;
 import id.ndbuffers.DoubleNdBufferBase;
+import id.ndbuffers.DoubleNdBufferView;
 import id.ndbuffers.NSlice;
-import id.ndbuffers.NdBufferView;
 import id.ndbuffers.Shape;
 import id.ndbuffers.Slice;
 import java.nio.DoubleBuffer;
@@ -30,9 +30,7 @@ import java.nio.DoubleBuffer;
  *
  * @author lambdaprime intid@protonmail.com
  */
-public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
-
-    protected final DoubleNdBuffer data;
+public class MatrixNd extends DoubleNdBufferView implements DoubleNdBuffer {
 
     public MatrixNd(int rows, int cols, double[] data) {
         this(rows, cols, DoubleBuffer.wrap(data));
@@ -59,14 +57,16 @@ public class MatrixNd extends NdBufferView implements DoubleNdBuffer {
     }
 
     public MatrixNd(NSlice nslice, DoubleNdBuffer data) {
-        super(Shape.ofSize(nslice, nslice.slices().length - 2, nslice.slices().length), nslice);
+        super(
+                Shape.ofSize(nslice, nslice.slices().length - 2, nslice.slices().length),
+                nslice,
+                data);
         var slices = nslice.slices();
         for (int i = 0; i < slices.length - 2; i++) {
             if (slices[i].size() > 1)
                 throw new IllegalArgumentException(
                         "Matrix requires 2 slices instead of " + shape.dims().length);
         }
-        this.data = data;
     }
 
     public int getRows() {
