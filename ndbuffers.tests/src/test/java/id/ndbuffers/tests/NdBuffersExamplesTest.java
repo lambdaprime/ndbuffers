@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import id.ndbuffers.NSlice;
 import id.ndbuffers.NdBuffersFactory;
+import id.ndbuffers.NdBuffersJsonUtils;
 import id.ndbuffers.Shape;
 import id.ndbuffers.Slice;
 import java.util.stream.IntStream;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
 public class NdBuffersExamplesTest {
 
     private NdBuffersFactory factory = new NdBuffersFactory();
+    private NdBuffersJsonUtils jsonUtils = new NdBuffersJsonUtils();
 
     @Test
     public void test() {
@@ -55,7 +57,7 @@ public class NdBuffersExamplesTest {
                  [9, 10, 11, 12],
                  [13, 14, 15, 16]
                 ] }""",
-                mx4d.dumpAsJson());
+                jsonUtils.dumpAsJson(mx4d));
         var mx3d = factory.matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
         assertEquals(
                 """
@@ -64,7 +66,7 @@ public class NdBuffersExamplesTest {
                  [10, 11, 12],
                  [14, 15, 16]
                 ] }""",
-                mx3d.dumpAsJson());
+                jsonUtils.dumpAsJson(mx3d));
         var mx2d = factory.matrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
         assertEquals(
                 """
@@ -72,7 +74,7 @@ public class NdBuffersExamplesTest {
                  [6, -1],
                  [14, 16]
                 ] }""",
-                mx2d.dumpAsJson());
+                jsonUtils.dumpAsJson(mx2d));
         mx2d.set(-16, 1, 1);
         assertEquals(
                 """
@@ -82,14 +84,14 @@ public class NdBuffersExamplesTest {
                  [9, 10, 11, 12],
                  [13, 14, 15, -16]
                 ] }""",
-                mx4d.dumpAsJson());
+                jsonUtils.dumpAsJson(mx4d));
         var vector3d = factory.vector3d(NSlice.of("1:", ":"), mx3d);
         assertEquals(
                 """
                 { "data" : [
                  [10, 11, 12]
                 ] }""",
-                vector3d.dumpAsJson());
+                jsonUtils.dumpAsJson(vector3d));
 
         var mxNd =
                 factory.matrixNd(
@@ -124,7 +126,7 @@ public class NdBuffersExamplesTest {
                 { "data" : [
                  [0, 1, 2, 3]
                 ] }""",
-                buf1d.dumpAsJson());
+                jsonUtils.dumpAsJson(buf1d));
         var buf2d = factory.ndBuffer(new Shape(5, 3), oneDimensionalArray);
         assertEquals(
                 """
@@ -135,7 +137,7 @@ public class NdBuffersExamplesTest {
                  [9, 10, 11],
                  [12, 13, 14]
                 ] }""",
-                buf2d.dumpAsJson());
+                jsonUtils.dumpAsJson(buf2d));
         var buf3d = factory.ndBuffer(new Shape(2, 4, 3), oneDimensionalArray);
         assertEquals(
                 """
@@ -153,7 +155,7 @@ public class NdBuffersExamplesTest {
                    [21, 22, 23]
                   ]
                  ] }""",
-                buf3d.dumpAsJson());
+                jsonUtils.dumpAsJson(buf3d));
         var buf4d = factory.ndBuffer(new Shape(2, 2, 4, 3), oneDimensionalArray);
         assertEquals(
                 """
@@ -187,6 +189,6 @@ public class NdBuffersExamplesTest {
                    ]
                   ]
                  ] }""",
-                buf4d.dumpAsJson());
+                jsonUtils.dumpAsJson(buf4d));
     }
 }

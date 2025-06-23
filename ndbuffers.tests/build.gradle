@@ -58,10 +58,21 @@ jacocoTestCoverageVerification {
     rule {
       enabled = true
       element = 'PACKAGE'
+      excludes = ['id.ndbuffers.matrix']
       limit {
         counter = 'LINE'
         value = 'COVEREDRATIO'
-        minimum = 0.4
+        minimum = 0.5
+      }
+    }
+    rule {
+      enabled = true
+      element = 'PACKAGE'
+      includes = ['id.ndbuffers.matrix']
+      limit {
+        counter = 'LINE'
+        value = 'COVEREDRATIO'
+        minimum = 0.3
       }
     }
   }

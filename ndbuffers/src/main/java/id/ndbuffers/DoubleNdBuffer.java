@@ -37,6 +37,4 @@ public interface DoubleNdBuffer {
      * <p>In case of view it applies {@link Buffer#duplicate()} on the source {@link Buffer}
      */
     DoubleBuffer duplicate();
-
-    String dumpAsJson();
 }
