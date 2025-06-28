@@ -15,24 +15,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package id.ndbuffers;
+package id.ndbuffers.impl;
 
-import java.nio.Buffer;
-import java.nio.DoubleBuffer;
+import id.ndbuffers.NdBuffer;
+import id.ndbuffers.Shape;
+import java.text.DecimalFormat;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public interface DoubleNdBuffer extends NdBuffer {
+public abstract class AbstractNdBuffer implements NdBuffer {
+    public static final DecimalFormat formatter = new DecimalFormat();
 
-    double get(int... indices);
+    static {
+        formatter.setMaximumFractionDigits(5);
+        formatter.setGroupingUsed(false);
+    }
 
-    void set(double v, int... indices);
+    protected final Shape shape;
 
-    /**
-     * Create duplicate of internal {@link Buffer} by calling {@link Buffer#duplicate()}
-     *
-     * <p>In case of view it applies {@link Buffer#duplicate()} on the source {@link Buffer}
-     */
-    DoubleBuffer duplicate();
+    protected AbstractNdBuffer(Shape shape) {
+        this.shape = shape;
+    }
+
+    @Override
+    public Shape shape() {
+        return shape;
+    }
+
+    @Override
+    public String toString() {
+        return "NdBuffer[shape=%s]".formatted(shape);
+    }
 }

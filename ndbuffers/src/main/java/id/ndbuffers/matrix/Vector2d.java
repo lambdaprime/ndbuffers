@@ -17,7 +17,7 @@
  */
 package id.ndbuffers.matrix;
 
-import id.ndbuffers.NdBuffer;
+import id.ndbuffers.impl.AbstractNdBuffer;
 import java.nio.DoubleBuffer;
 
 public class Vector2d extends MatrixNd {
@@ -54,6 +54,8 @@ public class Vector2d extends MatrixNd {
     public String toString() {
         return """
                { "x": %s, "y": %s }"""
-                .formatted(NdBuffer.formatter.format(getX()), NdBuffer.formatter.format(getY()));
+                .formatted(
+                        AbstractNdBuffer.formatter.format(getX()),
+                        AbstractNdBuffer.formatter.format(getY()));
     }
 }

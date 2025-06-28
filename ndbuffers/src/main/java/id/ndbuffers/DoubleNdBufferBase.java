@@ -17,13 +17,14 @@
  */
 package id.ndbuffers;
 
+import id.ndbuffers.impl.AbstractNdBuffer;
 import id.ndbuffers.impl.NdTo1dMapper;
 import java.nio.DoubleBuffer;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public class DoubleNdBufferBase extends NdBuffer {
+public class DoubleNdBufferBase extends AbstractNdBuffer implements DoubleNdBuffer {
     private final DoubleBuffer data;
     private final NdTo1dMapper mapper;
 
@@ -36,16 +37,20 @@ public class DoubleNdBufferBase extends NdBuffer {
 
     @Override
     public double get(int... indices) {
-        return data.get(mapper.map(indices));
+        return data.get(mapTo1d(indices));
     }
 
     @Override
     public void set(double v, int... indices) {
-        data.put(mapper.map(indices), v);
+        data.put(mapTo1d(indices), v);
     }
 
     @Override
     public DoubleBuffer duplicate() {
         return data.duplicate();
+    }
+
+    private int mapTo1d(int... indices) {
+        return mapper.map(indices);
     }
 }

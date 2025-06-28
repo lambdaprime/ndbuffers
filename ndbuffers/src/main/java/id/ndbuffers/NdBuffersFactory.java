@@ -20,6 +20,7 @@ package id.ndbuffers;
 import id.ndbuffers.matrix.Matrix3d;
 import id.ndbuffers.matrix.Matrix4d;
 import id.ndbuffers.matrix.MatrixNd;
+import id.ndbuffers.matrix.Vector2d;
 import id.ndbuffers.matrix.Vector3d;
 import java.nio.DoubleBuffer;
 
@@ -66,5 +67,12 @@ public class NdBuffersFactory {
     /** New view ndbuffer pointing to other ndbuffer */
     public Vector3d vector3d(NSlice nslice, DoubleNdBuffer data) {
         return new Vector3d(nslice, data);
+    }
+
+    /**
+     * New view ndbuffer which will point to a new direct ndbuffer initialized with provided data
+     */
+    public Vector2d vector2d(double x, double y) {
+        return new Vector2d(x, y);
     }
 }

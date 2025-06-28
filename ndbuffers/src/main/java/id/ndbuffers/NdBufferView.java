@@ -17,10 +17,12 @@
  */
 package id.ndbuffers;
 
+import id.ndbuffers.impl.AbstractNdBuffer;
+
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public abstract class NdBufferView extends NdBuffer {
+public abstract class NdBufferView extends AbstractNdBuffer {
 
     protected final NSlice nslice;
 

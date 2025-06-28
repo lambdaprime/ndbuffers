@@ -17,6 +17,7 @@
  */
 package id.ndbuffers;
 
+import id.ndbuffers.impl.AbstractNdBuffer;
 import id.ndbuffers.impl.NdIndexIterator;
 import id.ndbuffers.impl.NdIndexIterator.DimensionChangeListener;
 import id.ndbuffers.matrix.MatrixNd;
@@ -93,7 +94,7 @@ public class NdBuffersJsonUtils {
             for (int c = 0; c < cols; c++) {
                 if (c == 0) buf.append(" [");
                 var num = matrix.get(r, c);
-                var str = NdBuffer.formatter.format(num);
+                var str = AbstractNdBuffer.formatter.format(num);
                 if (str.equals("-0")) str = "0";
                 buf.append(str);
                 if (c < cols - 1) buf.append(", ");

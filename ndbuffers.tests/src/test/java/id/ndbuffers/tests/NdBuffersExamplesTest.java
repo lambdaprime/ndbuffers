@@ -33,8 +33,8 @@ import org.junit.jupiter.api.Test;
  */
 public class NdBuffersExamplesTest {
 
-    private NdBuffersFactory factory = new NdBuffersFactory();
-    private NdBuffersJsonUtils jsonUtils = new NdBuffersJsonUtils();
+    private static final NdBuffersFactory ndFactory = new NdBuffersFactory();
+    private static final NdBuffersJsonUtils jsonUtils = new NdBuffersJsonUtils();
 
     @Test
     public void test() {
@@ -45,7 +45,7 @@ public class NdBuffersExamplesTest {
                     9, 10, 11, 12,
                     13, 14, 15, 16
                 };
-        var mx4d = factory.matrix4d(oneDimensionalArray);
+        var mx4d = ndFactory.matrix4d(oneDimensionalArray);
         assertEquals(8, mx4d.get(1, 3));
         mx4d.set(-1, 1, 3);
         assertEquals(-1, oneDimensionalArray[7]);
@@ -58,7 +58,7 @@ public class NdBuffersExamplesTest {
                  [13, 14, 15, 16]
                 ] }""",
                 jsonUtils.dumpAsJson(mx4d));
-        var mx3d = factory.matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
+        var mx3d = ndFactory.matrix3d(Slice.of("1:4"), Slice.of("1:4"), mx4d);
         assertEquals(
                 """
                 { "data" : [
@@ -67,7 +67,7 @@ public class NdBuffersExamplesTest {
                  [14, 15, 16]
                 ] }""",
                 jsonUtils.dumpAsJson(mx3d));
-        var mx2d = factory.matrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
+        var mx2d = ndFactory.matrixNd(Slice.of("0:3:2"), Slice.of("0:3:2"), mx3d);
         assertEquals(
                 """
                 { "data" : [
@@ -85,7 +85,7 @@ public class NdBuffersExamplesTest {
                  [13, 14, 15, -16]
                 ] }""",
                 jsonUtils.dumpAsJson(mx4d));
-        var vector3d = factory.vector3d(NSlice.of("1:", ":"), mx3d);
+        var vector3d = ndFactory.vector3d(NSlice.of("1:", ":"), mx3d);
         assertEquals(
                 """
                 { "data" : [
@@ -94,7 +94,7 @@ public class NdBuffersExamplesTest {
                 jsonUtils.dumpAsJson(vector3d));
 
         var mxNd =
-                factory.matrixNd(
+                ndFactory.matrixNd(
                         new Slice(0, 4, 2),
                         new Slice(0, 3, 1),
                         new double[] {
@@ -109,25 +109,25 @@ public class NdBuffersExamplesTest {
 
     @Test
     public void test_index_over_missing_dims() {
-        var vector3d = factory.ndBuffer(new Shape(5), new double[] {1, 2, 3, 4, 5});
-        var mx1 = factory.matrixNd(NSlice.of("0:1:1", "0:3:1"), vector3d);
+        var vector3d = ndFactory.ndBuffer(new Shape(5), new double[] {1, 2, 3, 4, 5});
+        var mx1 = ndFactory.matrixNd(NSlice.of("0:1:1", "0:3:1"), vector3d);
         assertEquals(1, mx1.get(0, 0));
 
-        var mx2 = factory.matrixNd(NSlice.of("1:2:1", "0:3:1"), vector3d);
+        var mx2 = ndFactory.matrixNd(NSlice.of("1:2:1", "0:3:1"), vector3d);
         assertThrows(IllegalArgumentException.class, () -> mx2.get(0, 0));
     }
 
     @Test
     public void test_multiple_dimensions() {
         var oneDimensionalArray = IntStream.range(0, 2 * 3 * 4 * 3).asDoubleStream().toArray();
-        var buf1d = factory.ndBuffer(new Shape(4), oneDimensionalArray);
+        var buf1d = ndFactory.ndBuffer(new Shape(4), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [
                  [0, 1, 2, 3]
                 ] }""",
                 jsonUtils.dumpAsJson(buf1d));
-        var buf2d = factory.ndBuffer(new Shape(5, 3), oneDimensionalArray);
+        var buf2d = ndFactory.ndBuffer(new Shape(5, 3), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [
@@ -138,7 +138,7 @@ public class NdBuffersExamplesTest {
                  [12, 13, 14]
                 ] }""",
                 jsonUtils.dumpAsJson(buf2d));
-        var buf3d = factory.ndBuffer(new Shape(2, 4, 3), oneDimensionalArray);
+        var buf3d = ndFactory.ndBuffer(new Shape(2, 4, 3), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [
@@ -156,7 +156,7 @@ public class NdBuffersExamplesTest {
                   ]
                  ] }""",
                 jsonUtils.dumpAsJson(buf3d));
-        var buf4d = factory.ndBuffer(new Shape(2, 2, 4, 3), oneDimensionalArray);
+        var buf4d = ndFactory.ndBuffer(new Shape(2, 2, 4, 3), oneDimensionalArray);
         assertEquals(
                 """
                 { "data" : [

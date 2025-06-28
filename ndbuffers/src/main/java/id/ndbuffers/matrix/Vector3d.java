@@ -19,8 +19,8 @@ package id.ndbuffers.matrix;
 
 import id.ndbuffers.DoubleNdBuffer;
 import id.ndbuffers.NSlice;
-import id.ndbuffers.NdBuffer;
 import id.ndbuffers.Shape;
+import id.ndbuffers.impl.AbstractNdBuffer;
 import java.nio.DoubleBuffer;
 
 /**
@@ -79,8 +79,8 @@ public class Vector3d extends MatrixNd {
         return """
                { "x": %s, "y": %s, "z": %s }"""
                 .formatted(
-                        NdBuffer.formatter.format(getX()),
-                        NdBuffer.formatter.format(getY()),
-                        NdBuffer.formatter.format(getZ()));
+                        AbstractNdBuffer.formatter.format(getX()),
+                        AbstractNdBuffer.formatter.format(getY()),
+                        AbstractNdBuffer.formatter.format(getZ()));
     }
 }

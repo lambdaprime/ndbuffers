@@ -17,32 +17,20 @@
  */
 package id.ndbuffers;
 
-import java.text.DecimalFormat;
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public abstract class NdBuffer implements DoubleNdBuffer {
-    public static final DecimalFormat formatter = new DecimalFormat();
+public interface NdBuffer {
 
-    static {
-        formatter.setMaximumFractionDigits(5);
-        formatter.setGroupingUsed(false);
-    }
+    Shape shape();
 
-    protected final Shape shape;
-
-    protected NdBuffer(Shape shape) {
-        this.shape = shape;
-    }
-
-    @Override
-    public Shape shape() {
-        return shape;
-    }
-
-    @Override
-    public String toString() {
-        return "NdBuffer[shape=%s]".formatted(shape);
-    }
+    /**
+     * Create duplicate of internal {@link ByteBuffer} by calling {@link ByteBuffer#duplicate()}
+     *
+     * <p>In case of view it forwards call to the next ndbuffer it is pointing to.
+     */
+    DoubleBuffer duplicate();
 }
