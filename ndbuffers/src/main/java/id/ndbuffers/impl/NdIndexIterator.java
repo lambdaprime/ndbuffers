@@ -54,7 +54,7 @@ public class NdIndexIterator implements Iterator<int[]> {
         this.dimensionListener = dimensionListener;
         this.dims = shape.dims();
         this.currentNdIndex = new int[dims.length];
-        this.lastNdIndex = Arrays.stream(dims).map(i -> i - 1).toArray();
+        this.lastNdIndex = shape.lastIndex();
         currentNdIndex[currentNdIndex.length - 1]--;
     }
 

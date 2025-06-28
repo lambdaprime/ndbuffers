@@ -29,6 +29,11 @@ import java.nio.DoubleBuffer;
  */
 public class NdBuffersFactory {
 
+    /** New 1-dimensional base ndbuffer wrapped around data array */
+    public DoubleNdBuffer ndBuffer(double[] data) {
+        return ndBuffer(new Shape(data.length), data);
+    }
+
     /** New base ndbuffer pointing to {@link DoubleBuffer} */
     public DoubleNdBuffer ndBuffer(Shape sourceShape, DoubleBuffer data) {
         return new DoubleNdBufferBase(sourceShape, data);

@@ -44,4 +44,14 @@ public class DoubleNdBufferView extends NdBufferView implements DoubleNdBuffer {
     public DoubleBuffer duplicate() {
         return data.duplicate();
     }
+
+    @Override
+    public void copyTo(DoubleNdBuffer destination, int... indices) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int dataBufferIndex(int... indices) {
+        return data.dataBufferIndex(nslice.map(indices));
+    }
 }

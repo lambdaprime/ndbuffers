@@ -65,7 +65,7 @@ public record Shape(int... dims) {
 
     /** Total number of items in all dimensions of the shape */
     public int size() {
-        return Arrays.stream(dims).reduce((a, b) -> a * b).getAsInt();
+        return subsize(0);
     }
 
     /**
@@ -81,11 +81,30 @@ public record Shape(int... dims) {
     }
 
     @Override
+    public int hashCode() {
+        return Arrays.hashCode(dims);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Shape other) return Arrays.equals(dims, other.dims);
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Shape=" + Arrays.toString(dims);
     }
 
     public Shape subshape(int from, int to) {
         return new Shape(Arrays.copyOfRange(dims, from, to));
+    }
+
+    public int[] lastIndex() {
+        return Arrays.stream(dims).map(i -> i - 1).toArray();
+    }
+
+    public int subsize(int from) {
+        return Arrays.stream(dims).reduce((a, b) -> a * b).getAsInt();
     }
 }

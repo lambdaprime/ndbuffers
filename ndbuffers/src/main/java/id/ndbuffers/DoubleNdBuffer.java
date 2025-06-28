@@ -35,4 +35,6 @@ public interface DoubleNdBuffer extends NdBuffer {
      * <p>In case of view it applies {@link Buffer#duplicate()} on the source {@link Buffer}
      */
     DoubleBuffer duplicate();
+
+    void copyTo(DoubleNdBuffer destination, int... indices);
 }

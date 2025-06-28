@@ -67,8 +67,8 @@
  *   <li>view ndbuffers - created by applying {@link NSlice} over other existing ndbuffers. Views
  *       does not contain data instead they point to other view or base ndbuffer.
  *   <li>base ndbuffers - created by applying N-dimensional {@link Shape} over real data which is
- *       stored inside the {@link Buffer}. Direct ndbuffers can only point to {@link Buffer} and
- *       they cannot point to views or other base ndbuffers.
+ *       stored inside the {@link Buffer}. Base ndbuffers can only point to {@link Buffer} and they
+ *       cannot point to views or other base ndbuffers.
  * </ul>
  *
  * <h2>byte[] vs Buffer vs MemorySegment</h2>

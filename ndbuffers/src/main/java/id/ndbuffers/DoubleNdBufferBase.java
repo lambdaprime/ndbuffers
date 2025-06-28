@@ -18,6 +18,7 @@
 package id.ndbuffers;
 
 import id.ndbuffers.impl.AbstractNdBuffer;
+import id.ndbuffers.impl.NdCopyMaker;
 import id.ndbuffers.impl.NdTo1dMapper;
 import java.nio.DoubleBuffer;
 
@@ -25,6 +26,7 @@ import java.nio.DoubleBuffer;
  * @author lambdaprime intid@protonmail.com
  */
 public class DoubleNdBufferBase extends AbstractNdBuffer implements DoubleNdBuffer {
+    private final NdCopyMaker copyMaker = new NdCopyMaker();
     private final DoubleBuffer data;
     private final NdTo1dMapper mapper;
 
@@ -37,12 +39,12 @@ public class DoubleNdBufferBase extends AbstractNdBuffer implements DoubleNdBuff
 
     @Override
     public double get(int... indices) {
-        return data.get(mapTo1d(indices));
+        return data.get(dataBufferIndex(indices));
     }
 
     @Override
     public void set(double v, int... indices) {
-        data.put(mapTo1d(indices), v);
+        data.put(dataBufferIndex(indices), v);
     }
 
     @Override
@@ -50,7 +52,13 @@ public class DoubleNdBufferBase extends AbstractNdBuffer implements DoubleNdBuff
         return data.duplicate();
     }
 
-    private int mapTo1d(int... indices) {
+    @Override
+    public int dataBufferIndex(int... indices) {
         return mapper.map(indices);
+    }
+
+    @Override
+    public void copyTo(DoubleNdBuffer destination, int... indices) {
+        copyMaker.copy(this, new int[shape.dims().length], destination, indices);
     }
 }

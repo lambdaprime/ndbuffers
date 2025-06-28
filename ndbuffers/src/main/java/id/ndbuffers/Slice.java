@@ -87,7 +87,7 @@ public record Slice(int start, int stop, int step) {
         return stop - start;
     }
 
-    public Object trimStop(int maxStop) {
+    public Slice trimStop(int maxStop) {
         return stop <= maxStop ? this : new Slice(start, maxStop, step);
     }
 }

@@ -17,8 +17,7 @@
  */
 package id.ndbuffers;
 
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
+import java.nio.Buffer;
 
 /**
  * @author lambdaprime intid@protonmail.com
@@ -28,9 +27,8 @@ public interface NdBuffer {
     Shape shape();
 
     /**
-     * Create duplicate of internal {@link ByteBuffer} by calling {@link ByteBuffer#duplicate()}
-     *
-     * <p>In case of view it forwards call to the next ndbuffer it is pointing to.
+     * Item index inside continuous block storage of {@link Buffer} to which current ndbuffer points
+     * to.
      */
-    DoubleBuffer duplicate();
+    int dataBufferIndex(int... indices);
 }
