@@ -17,12 +17,14 @@
  */
 package id.ndbuffers;
 
+import id.ndbuffers.impl.NdCopyMaker;
 import java.nio.DoubleBuffer;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
 public class DoubleNdBufferView extends NdBufferView implements DoubleNdBuffer {
+    private final NdCopyMaker copyMaker = new NdCopyMaker();
     protected final DoubleNdBuffer data;
 
     public DoubleNdBufferView(Shape shape, NSlice nslice, DoubleNdBuffer data) {
@@ -47,7 +49,7 @@ public class DoubleNdBufferView extends NdBufferView implements DoubleNdBuffer {
 
     @Override
     public void copyTo(DoubleNdBuffer destination, int... indices) {
-        throw new UnsupportedOperationException();
+        copyMaker.copy(this, new int[shape.dims().length], destination, indices);
     }
 
     @Override

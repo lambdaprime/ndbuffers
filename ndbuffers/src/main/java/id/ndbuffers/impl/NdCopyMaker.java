@@ -34,6 +34,8 @@ public class NdCopyMaker {
     private final NdIndexUtils indexUtils = new NdIndexUtils();
 
     public void copy(DoubleNdBuffer from, int[] fromAt, DoubleNdBuffer to, int[] toAt) {
+        if (!indexUtils.isConsecutive(from, fromAt, from.shape().lastIndex()))
+            throw new UnsupportedOperationException();
         var fromLen = from.shape().dims().length;
         var destinationDim = to.shape().dims().length - fromLen;
         if (destinationDim < 0) throw new IllegalArgumentException();

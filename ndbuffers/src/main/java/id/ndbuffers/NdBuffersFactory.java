@@ -22,9 +22,12 @@ import id.ndbuffers.matrix.Matrix4d;
 import id.ndbuffers.matrix.MatrixNd;
 import id.ndbuffers.matrix.Vector2d;
 import id.ndbuffers.matrix.Vector3d;
+import java.nio.Buffer;
 import java.nio.DoubleBuffer;
 
 /**
+ * See module documentation about difference between base and view ndbuffers.
+ *
  * @author lambdaprime intid@protonmail.com
  */
 public class NdBuffersFactory {
@@ -52,6 +55,18 @@ public class NdBuffersFactory {
     /** New view ndbuffer pointing to other ndbuffer */
     public Matrix3d matrix3d(Slice rows, Slice cols, DoubleNdBuffer data) {
         return new Matrix3d(rows, cols, data);
+    }
+
+    /**
+     * New view ndbuffer which will point to a new base ndbuffer wrapped around data {@link Buffer}
+     */
+    public Matrix3d matrix3d(DoubleBuffer data) {
+        return new Matrix3d(data);
+    }
+
+    /** New view ndbuffer which will point to a new base ndbuffer wrapped around data array */
+    public DoubleNdBuffer matrix3d(double[] data) {
+        return new Matrix3d(data);
     }
 
     /** New view ndbuffer pointing to other ndbuffer */
