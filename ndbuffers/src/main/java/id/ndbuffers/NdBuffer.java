@@ -31,4 +31,11 @@ public interface NdBuffer {
      * to.
      */
     int dataBufferIndex(int... indices);
+
+    /**
+     * Create duplicate of internal {@link Buffer} by calling {@link Buffer#duplicate()}
+     *
+     * <p>In case of view it applies {@link Buffer#duplicate()} on the source {@link Buffer}
+     */
+    Buffer duplicate();
 }

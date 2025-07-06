@@ -17,7 +17,6 @@
  */
 package id.ndbuffers;
 
-import java.nio.Buffer;
 import java.nio.DoubleBuffer;
 
 /**
@@ -29,11 +28,8 @@ public interface DoubleNdBuffer extends NdBuffer {
 
     void set(double v, int... indices);
 
-    /**
-     * Create duplicate of internal {@link Buffer} by calling {@link Buffer#duplicate()}
-     *
-     * <p>In case of view it applies {@link Buffer#duplicate()} on the source {@link Buffer}
-     */
+    /** {@inheritDoc} */
+    @Override
     DoubleBuffer duplicate();
 
     void copyTo(DoubleNdBuffer destination, int... indices);

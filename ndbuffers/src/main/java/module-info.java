@@ -61,7 +61,7 @@
  *
  * <h2>Usage</h2>
  *
- * <p>There are two types of ndbuffers:
+ * <p>There are two types of <b>ndbuffers</b>:
  *
  * <ul>
  *   <li>view ndbuffers - created by applying {@link NSlice} over other existing ndbuffers. Views
@@ -70,6 +70,11 @@
  *       stored inside the {@link Buffer}. Base ndbuffers can only point to {@link Buffer} and they
  *       cannot point to views or other base ndbuffers.
  * </ul>
+ *
+ * <p>It is possible to get access to the internal {@link Buffer} of <b>ndbuffers</b> using {@link
+ * id.ndbuffers.NdBuffer#duplicate} (despite its name it does not duplicate entire data but only
+ * pointer to it, see {@link java.nio.Buffer#duplicate} for details). Because view ndbuffers does
+ * not contain any data, this method returns the {@link Buffer} of the base ndbuffers.
  *
  * <h2>byte[] vs Buffer vs MemorySegment</h2>
  *
@@ -102,9 +107,7 @@
  * @see <a
  *     href="https://github.com/lambdaprime/ndbuffers/blob/main/ndbuffers/release/CHANGELOG.md">Releases</a>
  * @see <a href="https://github.com/lambdaprime/ndbuffers">Github</a>
- * @author lambdaprime intid@protonmail
- *     <p>;
- *     <p>m
+ * @author lambdaprime intid@protonmail.com
  */
 module ndbuffers {
     exports id.ndbuffers;
