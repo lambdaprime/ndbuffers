@@ -19,6 +19,8 @@ package id.ndbuffers;
 
 import id.ndbuffers.matrix.Matrix3d;
 import id.ndbuffers.matrix.Matrix4d;
+import id.ndbuffers.matrix.MatrixN2d;
+import id.ndbuffers.matrix.MatrixN3d;
 import id.ndbuffers.matrix.MatrixNd;
 import id.ndbuffers.matrix.Vector2d;
 import id.ndbuffers.matrix.Vector3d;
@@ -57,6 +59,11 @@ public class NdBuffersFactory {
         return new Matrix3d(rows, cols, data);
     }
 
+    /** New view ndbuffer which will point to a new base ndbuffer */
+    public Matrix3d matrix3d() {
+        return new Matrix3d();
+    }
+
     /**
      * New view ndbuffer which will point to a new base ndbuffer wrapped around data {@link Buffer}
      */
@@ -65,8 +72,40 @@ public class NdBuffersFactory {
     }
 
     /** New view ndbuffer which will point to a new base ndbuffer wrapped around data array */
-    public DoubleNdBuffer matrix3d(double[] data) {
+    public Matrix3d matrix3d(double[] data) {
         return new Matrix3d(data);
+    }
+
+    /** New view ndbuffer which will point to a new base ndbuffer wrapped around data array */
+    public MatrixN3d matrixN3d(double[] data) {
+        return new MatrixN3d(data);
+    }
+
+    /** New view ndbuffer which will point to a new base ndbuffer initialized with provided data */
+    public MatrixN3d matrixN3d(Vector3d... vecs) {
+        return new MatrixN3d(vecs);
+    }
+
+    /** New view ndbuffer which will point to a new base ndbuffer */
+    public MatrixN3d matrixN3d(int n) {
+        return new MatrixN3d(new double[n * 3]);
+    }
+
+    /**
+     * New view ndbuffer which will point to a new base ndbuffer wrapped around data {@link Buffer}
+     */
+    public MatrixN3d matrixN3d(DoubleBuffer data) {
+        return new MatrixN3d(data);
+    }
+
+    /** New view ndbuffer pointing to other ndbuffer */
+    public MatrixN3d matrixN3d(Slice rows, Slice cols, DoubleNdBuffer data) {
+        return new MatrixN3d(rows, cols, data);
+    }
+
+    /** New view ndbuffer pointing to other ndbuffer */
+    public MatrixN2d matrixN2d(Slice rows, Slice cols, DoubleNdBuffer data) {
+        return new MatrixN2d(rows, cols, data);
     }
 
     /** New view ndbuffer pointing to other ndbuffer */

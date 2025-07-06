@@ -17,6 +17,7 @@
  */
 package id.ndbuffers.matrix;
 
+import id.ndbuffers.DoubleNdBuffer;
 import id.ndbuffers.NSlice;
 import id.ndbuffers.Slice;
 import java.nio.DoubleBuffer;
@@ -41,6 +42,10 @@ public class MatrixN3d extends MatrixNd {
         for (var v : vecs) {
             data.put(v.duplicate());
         }
+    }
+
+    public MatrixN3d(Slice rows, Slice cols, DoubleNdBuffer data) {
+        super(new NSlice(rows, cols), data);
     }
 
     public Vector3d getVectorView(int row) {

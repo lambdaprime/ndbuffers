@@ -31,6 +31,10 @@ import java.nio.DoubleBuffer;
 public class Matrix3d extends MatrixNd {
     private static final Shape SHAPE = new Shape(3, 3);
 
+    public Matrix3d() {
+        this(new double[SHAPE.size()]);
+    }
+
     public Matrix3d(double[] data) {
         super(3, 3, data);
     }
@@ -45,9 +49,9 @@ public class Matrix3d extends MatrixNd {
 
     public Matrix3d(Slice rows, Slice cols, DoubleNdBuffer data) {
         super(new NSlice(rows, cols).trim(SHAPE), data);
-        if (rows.size() != 3)
+        if (getRows() != 3)
             throw new IllegalArgumentException("Number of rows mismatch 3 !=" + rows.size());
-        if (cols.size() != 3)
+        if (getCols() != 3)
             throw new IllegalArgumentException("Number of cols mismatch 3 !=" + cols.size());
     }
 }
