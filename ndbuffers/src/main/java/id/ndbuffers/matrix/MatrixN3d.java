@@ -48,6 +48,18 @@ public class MatrixN3d extends MatrixNd {
         super(new NSlice(rows, cols), data);
     }
 
+    public MatrixN3d(Slice rows, Slice cols, DoubleBuffer data) {
+        super(new NSlice(rows, cols), data);
+    }
+
+    public MatrixN3d(NSlice nslice, DoubleNdBuffer data) {
+        super(nslice, data);
+    }
+
+    public MatrixN3d(int rows, int cols, DoubleBuffer data) {
+        super(3, 3, data);
+    }
+
     public Vector3d getVectorView(int row) {
         return new Vector3d(new NSlice(new Slice(row, row + 1, 1), new Slice(0, 3, 1)), data);
     }

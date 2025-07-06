@@ -28,7 +28,7 @@ import java.nio.DoubleBuffer;
  *
  * @author lambdaprime intid@protonmail.com
  */
-public class Matrix3d extends MatrixNd {
+public class Matrix3d extends MatrixN3d {
     private static final Shape SHAPE = new Shape(3, 3);
 
     public Matrix3d() {
@@ -36,7 +36,7 @@ public class Matrix3d extends MatrixNd {
     }
 
     public Matrix3d(double[] data) {
-        super(3, 3, data);
+        super(3, 3, DoubleBuffer.wrap(data));
     }
 
     public Matrix3d(DoubleBuffer data) {
