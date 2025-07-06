@@ -17,6 +17,9 @@
  */
 package id.ndbuffers.matrix;
 
+import id.ndbuffers.DoubleNdBuffer;
+import id.ndbuffers.NSlice;
+import id.ndbuffers.Shape;
 import id.ndbuffers.impl.AbstractNdBuffer;
 import java.nio.DoubleBuffer;
 
@@ -28,6 +31,10 @@ public class Vector2d extends MatrixNd {
 
     public Vector2d(DoubleBuffer data) {
         super(1, 2, data);
+    }
+
+    public Vector2d(NSlice nslice, DoubleNdBuffer data) {
+        super(nslice.trim(new Shape(1, 2)), data);
     }
 
     public double getX() {
