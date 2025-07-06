@@ -38,9 +38,10 @@ public class MatrixN3d extends MatrixNd {
 
     public MatrixN3d(Vector3d... vecs) {
         this(new double[vecs.length * 3]);
+        if (vecs.length == 0) return;
         var data = duplicate();
         for (var v : vecs) {
-            data.put(v.duplicate());
+            data.put(v.duplicate().limit(3));
         }
     }
 

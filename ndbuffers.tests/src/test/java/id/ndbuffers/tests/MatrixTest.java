@@ -31,7 +31,7 @@ public class MatrixTest {
     private static final NdBuffersJsonUtils jsonUtils = new NdBuffersJsonUtils();
 
     @Test
-    public void test_of() {
+    public void test() {
         Assertions.assertEquals(
                 """
 { "data" : [
@@ -40,5 +40,12 @@ public class MatrixTest {
 ] }""",
                 jsonUtils.dumpAsJson(
                         ndFactory.matrixN3d(new Vector3d(1, 2, 3), new Vector3d(4, 5, 6))));
+
+        Assertions.assertEquals(
+                """
+{ "data" : [
+ [0, 0, 0]
+] }""",
+                jsonUtils.dumpAsJson(ndFactory.matrixN3d(ndFactory.matrix3d().getVectorView(0))));
     }
 }
