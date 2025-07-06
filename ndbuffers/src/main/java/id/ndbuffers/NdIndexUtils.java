@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public class NdIndexUtils {
 
     /**
-     * Check if items between [from, to) are stored inside continuous block storage of {@link
+     * Check if items between [from, to] are stored inside continuous block storage of {@link
      * Buffer} to which given ndbuffer points
      */
     public boolean isConsecutive(DoubleNdBuffer ndbuffer, int[] from, int[] to) {

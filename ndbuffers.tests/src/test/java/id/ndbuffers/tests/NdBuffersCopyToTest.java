@@ -23,6 +23,7 @@ import id.ndbuffers.DoubleNdBuffer;
 import id.ndbuffers.NdBuffersFactory;
 import id.ndbuffers.NdBuffersJsonUtils;
 import id.ndbuffers.Shape;
+import id.ndbuffers.Slice;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -187,6 +188,23 @@ public class NdBuffersCopyToTest {
                          [40, 7, 8, 9, 44]
                         ] }"""),
                 new TestCase(
+                        ndFactory.ndBuffer(new Shape(3, 1), new double[] {1, 2, 3}),
+                        ndFactory.matrix4d(
+                                new double[] {
+                                    10, 11, 12, 13,
+                                    20, 21, 22, 23,
+                                    30, 31, 32, 33,
+                                    40, 41, 42, 43,
+                                }),
+                        new int[] {0, 3},
+                        """
+                        { "data" : [
+                         [10, 11, 12, 1],
+                         [20, 21, 22, 2],
+                         [30, 31, 32, 3],
+                         [40, 41, 42, 43]
+                        ] }"""),
+                new TestCase(
                         ndFactory.matrix3d(
                                 new double[] {
                                     1, 2, 3,
@@ -208,6 +226,56 @@ public class NdBuffersCopyToTest {
                          [20, 1, 2, 3, 24],
                          [30, 4, 5, 6, 34],
                          [40, 7, 8, 9, 44]
+                        ] }"""),
+                // Test copy from the view over the base ndbuffer with a larger size than the copyTo
+                // destination
+                // Copy at the beginning of the destination ndbuffer.
+                new TestCase(
+                        ndFactory.matrix3d(
+                                new Slice(2, Slice.MAX_INDEX, 1),
+                                new Slice(0, 3, 1),
+                                ndFactory.matrixN3d(
+                                        new double[] {
+                                            10, 11, 12,
+                                            20, 21, 22,
+                                            30, 31, 32,
+                                            40, 41, 42,
+                                            50, 51, 52,
+                                            60, 61, 62
+                                        })),
+                        ndFactory.matrix3d(),
+                        new int[] {0, 0},
+                        """
+                        { "data" : [
+                         [30, 31, 32],
+                         [40, 41, 42],
+                         [50, 51, 52]
+                        ] }"""),
+                // Test copy from the view over the base ndbuffer with a larger size than the copyTo
+                // destination
+                // Copy at random index inside destination ndbuffer.
+                new TestCase(
+                        ndFactory.matrix3d(
+                                new Slice(2, Slice.MAX_INDEX, 1),
+                                new Slice(0, 3, 1),
+                                ndFactory.matrixN3d(
+                                        new double[] {
+                                            10, 11, 12,
+                                            20, 21, 22,
+                                            30, 31, 32,
+                                            40, 41, 42,
+                                            50, 51, 52,
+                                            60, 61, 62
+                                        })),
+                        ndFactory.matrixN3d(5),
+                        new int[] {2, 0},
+                        """
+                        { "data" : [
+                         [0, 0, 0],
+                         [0, 0, 0],
+                         [30, 31, 32],
+                         [40, 41, 42],
+                         [50, 51, 52]
                         ] }"""));
     }
 

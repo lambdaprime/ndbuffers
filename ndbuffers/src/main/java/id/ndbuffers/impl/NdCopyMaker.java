@@ -50,22 +50,31 @@ public class NdCopyMaker {
             int dstDim,
             int[] dstStart) {
         var sdims = src.shape().dims();
+        // last index
         var dstEnd =
                 IntStream.range(0, dstStart.length)
                         .map(i -> dstStart[i] + (i < dstDim ? 0 : sdims[srcDim + i - dstDim] - 1))
                         .toArray();
         if (indexUtils.isConsecutive(dst, dstStart, dstEnd)) {
+            // if it is a last dimension and since it is consecutive - do bulk copy
             if (srcDim == sdims.length - 1) {
                 copyBulk(src, srcStart, sdims[srcDim], dst, dstStart);
                 return;
             }
             var ddims = dst.shape().dims();
+            // if shape of all the rest dimensions are equal and since they are consecutive - do
+            // bulk copy
             if (arrayEquals(sdims, srcDim + 1, ddims, dstDim + 1)) {
                 if (src.shape().dims()[srcDim] > ddims[dstDim])
                     throw new RuntimeException(
                             "Shape of source NdBuffer should be less or equal to shape of its"
                                     + " destination");
-                copyBulk(src, srcStart, -1, dst, dstStart);
+                copyBulk(
+                        src,
+                        srcStart,
+                        dst.dataBufferIndex(dstEnd) - dst.dataBufferIndex(dstStart) + 1,
+                        dst,
+                        dstStart);
                 return;
             }
             var newSrcStart = Arrays.copyOf(srcStart, srcStart.length);
